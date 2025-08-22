@@ -1,27 +1,28 @@
 $(function () {
-  // ページ内スクロール
-  var navHeight = $(".header").outerHeight();
+  var navHeight = $(".header").outerHeight() || 0;
 
-  $('a[href^="#"]').on("click", function () {
+  $('a[href^="#"]').on("click", function (e) {
     var href = $(this).attr("href");
-    var target = $(href == "#" || href == "" ? "html" : href);
-    var position = target.offset().top - navHeight;
-    $("html, body").animate({ scrollTop: position }, 300, "swing");
-    return false;
+    var $target = $(href === "#" || href === "" ? "html" : href);
+    if (!$target.length) return;
+    e.preventDefault();
+    var pos = $target.offset().top - navHeight;
+    $("html, body").animate({ scrollTop: pos }, 300, "swing");
   });
 
   // ページトップ
   $("#js-page-top").on("click", function () {
-    $("body,html").animate({ scrollTop: 0 }, 300);
-    return false;
+    $("html, body").animate({ scrollTop: 0 }, 300);
   });
 
-  // ハンバーガーメニュー開閉
+  // ハンバーガー開閉
   $("#hamburger").on("click", function () {
     $("#sp-nav").toggleClass("show");
-    const expanded = $(this).attr("aria-expanded") === "true";
+    var expanded = $(this).attr("aria-expanded") === "true";
     $(this).attr("aria-expanded", String(!expanded));
   });
+
+  // 画面幅が戻ったらメニューを閉じる
   $(window).on("resize", function () {
     if (window.innerWidth > 767) {
       $("#sp-nav").removeClass("show");
@@ -30,54 +31,51 @@ $(function () {
   });
 });
 
-// ローディング処理
-$(window).on("load", function () {
-  setTimeout(function () {
-    $("#loading-screen").css({
-      opacity: "0",
-      transition: "opacity 1s ease",
-    });
-    setTimeout(function () {
-      $("#loading-screen").css("display", "none");
-      $("body").addClass("loaded");
-    }, 1000);
-  }, 2000); // 最初のローディング時間
-});
+// ================================
+// ローディング（
+// ================================
 
-var dots = 0;
-var loadingInterval = setInterval(function () {
-  dots = (dots + 1) % 5;
+// 「Loading...」のドットアニメーション
+let dots = 0;
+const loadingTimer = setInterval(function () {
+  dots = (dots + 1) % 4; // 0〜3
   $(".loading-text").text("Loading" + ".".repeat(dots));
 }, 500);
 
 $(window).on("load", function () {
+  const SHOW_MS = 2000;
+
   setTimeout(function () {
-    $("#loading-screen").css({
-      opacity: "0",
-      transition: "opacity 1s ease",
-    });
+    $("#loading-screen").css({ opacity: "0", transition: "opacity 1s ease" });
+
     setTimeout(function () {
-      $("#loading-screen").css("display", "none");
+      $("#loading-screen").hide();
       $("body").addClass("loaded");
-      clearInterval(loadingInterval); // ← ここで止める！
-    }, 1000);
-  }, 2000);
+      clearInterval(loadingTimer);
+    }, 1000); // フェード時間
+  }, SHOW_MS);
 });
 
-//skillsのアニメーション
-
+// ================================
+// Skills
+// ================================
 $(function () {
-  $(window).on("scroll", function () {
+  function revealSkills() {
+    var scroll = $(window).scrollTop();
+    var winH = $(window).height();
+
     $(".skill-block").each(function (i) {
-      var elemPos = $(this).offset().top;
-      var scroll = $(window).scrollTop();
-      var windowHeight = $(window).height();
-      if (scroll > elemPos - windowHeight + 100) {
-        var $this = $(this);
+      var $el = $(this);
+      if ($el.hasClass("animate")) return;
+      var elemTop = $el.offset().top;
+      if (scroll > elemTop - winH + 100) {
         setTimeout(function () {
-          $this.addClass("animate");
+          $el.addClass("animate");
         }, i * 400);
       }
     });
-  });
+  }
+
+  $(window).on("scroll", revealSkills);
+  revealSkills();
 });
