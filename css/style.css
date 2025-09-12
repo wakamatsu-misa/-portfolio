@@ -219,10 +219,10 @@ img {
   right: 8%;
   font-family: "Inter", sans-serif;
   font-style: normal;
-  font-weight: 200; /* 太字で存在感 */
+  font-weight: 200;
   color: #ffffff;
-  font-size: 1.5rem; /* 少し大きめ */
-  letter-spacing: 0.05em; /* 字間を広げて高級感 */
+  font-size: 1.5rem;
+  letter-spacing: 0.05em;
   z-index: 2;
   opacity: 0;
   transform: translateY(20px);
@@ -544,11 +544,6 @@ body.loaded .mv-text {
 
 .profile-body {
   flex: 1;
-}
-
-.profile-body p {
-  font-size: 15px;
-  line-height: 1.8;
 }
 
 .about-viewmore {
