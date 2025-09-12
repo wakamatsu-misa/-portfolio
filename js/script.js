@@ -57,6 +57,30 @@ $(window).on("load", function () {
 });
 
 // ================================
+// ヘッダーの色を切り替える
+// ================================
+
+window.addEventListener("scroll", function () {
+  const header = document.querySelector(".header");
+  const targets = document.querySelectorAll("#works, #about");
+  let darkMode = false;
+
+  targets.forEach((section) => {
+    const rect = section.getBoundingClientRect();
+    // ビューポート上部から60pxの位置がセクション内にあるかどうか
+    if (rect.top <= 60 && rect.bottom >= 60) {
+      darkMode = true;
+    }
+  });
+
+  if (darkMode) {
+    header.classList.add("dark"); // 黒文字モードON
+  } else {
+    header.classList.remove("dark"); // 白文字モードOFF（白文字に戻る）
+  }
+});
+
+// ================================
 // Skills
 // ================================
 $(function () {
