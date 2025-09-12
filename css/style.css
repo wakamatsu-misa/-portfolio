@@ -581,10 +581,6 @@ body.loaded .mv-text {
   border-radius: 50%;
 }
 
-.profile-body {
-  flex: 1;
-}
-
 .profile-body p {
   font-size: 15px;
   line-height: 1.8;
