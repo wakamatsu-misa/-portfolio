@@ -213,22 +213,7 @@ img {
   display: block;
 }
 
-.mv-text {
-  position: absolute;
-  bottom: 5%;
-  right: 8%;
-  font-family: "Inter", sans-serif;
-  font-style: normal;
-  font-weight: 200;
-  color: #ffffff;
-  font-size: 1.5rem;
-  letter-spacing: 0.05em;
-  z-index: 2;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-body.loaded .mv-text {
+body.loaded t {
   animation: floatFadeUp 3s ease-out forwards;
   animation-delay: 0.8s;
 }
