@@ -1,4 +1,6 @@
-/* ローディング全体 */
+/*--------------------------------
+  ローディング
+---------------------------------*/
 #loading-screen {
   position: fixed;
   inset: 0;
@@ -10,7 +12,6 @@
   flex-direction: column;
 }
 
-/* ローディングテキスト */
 .loading-text {
   color: #fff;
   font-family: "EB Garamond", serif;
@@ -19,19 +20,26 @@
   letter-spacing: 0.1em;
 }
 
+/*--------------------------------
+  ベース
+---------------------------------*/
 body {
   font-family: "Poppins", "Noto Sans JP", sans-serif;
   font-size: 16px;
   line-height: 1.8;
   letter-spacing: 0.03em;
   color: #333;
-  background-color: #000000;
+  background-color: #000;
 }
 
 a {
-  transition: opacity 0.3s;
-  text-decoration: none;
   color: #c0c2c3;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+a:hover {
+  opacity: 0.8;
 }
 
 img {
@@ -66,12 +74,12 @@ img {
 
 .container {
   max-width: 1340px;
-  margin: auto;
+  margin: 0 auto;
   padding: 0 50px;
 }
 
 /*--------------------------------
- 　各見出し
+  見出し
 ---------------------------------*/
 .title {
   font-size: 50px;
@@ -81,8 +89,10 @@ img {
   line-height: 1;
   text-align: center;
   letter-spacing: 0.02em;
-  color: #ffffff;
+  color: #fff;
+  margin-bottom: 45px;
 }
+
 .title1 {
   font-size: 50px;
   font-family: "EB Garamond", serif;
@@ -91,11 +101,7 @@ img {
   line-height: 1;
   text-align: center;
   letter-spacing: 0.02em;
-  color: #000000;
-}
-
-.title,
-.title1 {
+  color: #000;
   margin-bottom: 45px;
 }
 
@@ -106,7 +112,7 @@ img {
 }
 
 /*--------------------------------
-　ヘッダー
+  ヘッダー
 ---------------------------------*/
 .header {
   position: fixed;
@@ -123,42 +129,33 @@ img {
   font-weight: 300;
   font-size: 20px;
   line-height: 1;
-  padding-top: 30px; /* ↓ 少し下げる */
+  padding-top: 30px;
   margin-left: 14px;
   letter-spacing: 0.02em;
   transition: color 0.3s;
 }
-/* aタグにも色を継承させる */
+
 .header-title a {
-  color: inherit; /* 親(h1)の色を引き継ぐ */
-  transition: color 0.3s;
+  color: inherit;
 }
 
-/* 初期は白文字 */
-.header-title {
-  color: #fff;
-}
-
-/* Works / About に到達したら黒文字 */
+/* Works / About 到達時に黒文字にする用 */
 .header.dark .header-title {
   color: #000;
 }
 
 /*--------------------------------
- 　ヘッダーハンバーガーメニュー
+  ハンバーガーメニュー（SP）
 ---------------------------------*/
-
-/* ハンバーガーボタン */
 .hamburger {
   background: none;
   border: none;
   color: #fff;
   cursor: pointer;
   font-size: 26px;
-  display: none; /* デフォルト非表示（PC） */
+  display: none; /* PCでは非表示 */
 }
 
-/* スマホメニュー */
 .sp-nav {
   display: none;
   position: absolute;
@@ -182,84 +179,93 @@ img {
 .sp-nav ul li a {
   color: #fff;
   font-size: 1rem;
-  text-decoration: none;
 }
 
-/* メニュー表示クラス */
 .sp-nav.show {
   display: block;
 }
 
 /*--------------------------------
- 　メインビジュアル
+  メインビジュアル（PC）
 ---------------------------------*/
 .mv {
   position: relative;
-  min-height: 100vh;
-  margin-top: -73px;
+  height: 100vh;
+  min-height: 600px;
   overflow: hidden;
+  margin-top: -73px; /* 固定ヘッダー分を打ち消す */
+}
+
+.mv-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .mv-img {
   position: absolute;
-  inset: 0; /* 全面に広げる */
-  z-index: 0;
-}
-
-.mv-img img {
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain; /* 背景のように全面フィット */
+  overflow: hidden;
+}
+
+/* PC用画像：全面に敷く */
+.pc-img {
   display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
-body.loaded t {
-  animation: floatFadeUp 3s ease-out forwards;
-  animation-delay: 0.8s;
-}
-
-@keyframes floatFadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* SP用画像：PCでは非表示 */
+.sp-img {
+  display: none;
 }
 
 /*--------------------------------
- 　メインリスト 
+  メインメニュー（PC）
 ---------------------------------*/
 .main-list {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 15px;
-  z-index: 2;
+  text-align: center;
 }
 
+/* メインリストの見た目＆初期状態 */
 .main-list a {
-  position: relative;
   font-family: "EB Garamond", serif;
   font-size: 40px;
   letter-spacing: 0.05em;
   color: #e6e6e6ee;
   text-decoration: none;
 
-  /* 初回のフェードアップ用 */
+  /* 最初は下に隠しておく */
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeUp 1.8s ease forwards;
-  animation-delay: 2s;
+  transition: opacity 1.8s ease, transform 1.8s ease;
 }
 
-/* 表示アニメーション */
+/* ローディング完了後：ふわっと上がってくる */
+body.loaded .main-list a {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.5s; /* ← 出てくるタイミングを少し遅らせる */
+}
+
+/* ホバーで少しふわっと浮かせる */
+body.loaded .main-list a:hover {
+  transform: translateY(-4px) scale(1);
+}
+
+/* ふわっと出てくるアニメーション */
 @keyframes fadeUp {
   0% {
     opacity: 0;
@@ -272,9 +278,8 @@ body.loaded t {
 }
 
 /*--------------------------------
- 　Works
+  Works
 ---------------------------------*/
-
 .works-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -287,13 +292,14 @@ body.loaded t {
   overflow: hidden;
   background: #252525;
 }
+
 .works-item:hover {
   opacity: 0.9;
   transform: translateY(-2px);
 }
 
 .works-img {
-  aspect-ratio: 4 / 3; /* 400x300と同じ比率 */
+  aspect-ratio: 4 / 3;
   background: #fff;
   display: flex;
   align-items: center;
@@ -310,7 +316,7 @@ body.loaded t {
 
 .works-name {
   background-color: #252525;
-  color: #ffffff;
+  color: #fff;
   padding: 8px;
   text-align: center;
   font-size: 12px;
@@ -321,16 +327,15 @@ body.loaded t {
 
 .works-info {
   background-color: #252525;
-  color: #cccccc;
+  color: #ccc;
   padding: 5px;
   text-align: center;
   font-size: 10px;
 }
 
 /*--------------------------------
- 　works　詳細ページ
+  works 詳細ページ
 ---------------------------------*/
-
 .article {
   padding: 80px 0;
 }
@@ -351,7 +356,7 @@ body.loaded t {
 
 .article-title {
   font-family: "Playfair Display", serif;
-  color: #cccccc;
+  color: #ccc;
   font-size: 36px;
   text-align: center;
   margin-bottom: 64px;
@@ -369,10 +374,9 @@ body.loaded t {
   gap: 80px;
   align-items: flex-start;
   width: 100%;
-  margin: 40px 20px 80px 20px;
+  margin: 40px 20px 80px;
 }
 
-/* 左側：画像 */
 .article-img {
   flex: 1;
   max-width: 45%;
@@ -385,29 +389,20 @@ body.loaded t {
   margin: 60px 0 0 30px;
 }
 
-.works-012 {
-  width: 100%;
-  max-width: 300px;
-  display: block;
-  margin: 70px auto 0 auto;
-  border: 1px solid #ccc;
-}
-
+.works-012,
 .works-005 {
   width: 100%;
   max-width: 300px;
   display: block;
-  margin: 70px auto 0 auto;
+  margin: 70px auto 0;
   border: 1px solid #ccc;
 }
-
-/* 右側：テキスト　*/
 
 .article-text {
   flex: 1;
   max-width: 50%;
   font-family: "Poppins", "Yu Gothic UI", sans-serif;
-  color: #ffffff;
+  color: #fff;
 }
 
 .article-body h3 {
@@ -416,10 +411,6 @@ body.loaded t {
   color: #f0f0f0;
   padding-left: 0.8em;
   margin: 32px 0 12px;
-}
-
-.article-body p {
-  color: #ffffff;
 }
 
 .article-body h3:not(:first-child) {
@@ -437,13 +428,14 @@ body.loaded t {
   background-color: #333;
 }
 
+.article-body p,
 .article-text p {
   font-size: 15px;
   line-height: 1.9;
   margin-bottom: 18px;
-  color: #ffffff;
+  color: #fff;
 }
-/* video*/
+
 .work-video {
   width: 100%;
   max-width: 800px;
@@ -453,7 +445,7 @@ body.loaded t {
 }
 
 /*--------------------------------
- 　Skill
+  Skill
 ---------------------------------*/
 .skill-container {
   display: flex;
@@ -493,6 +485,7 @@ body.loaded t {
 .skill-texts .skill-block:nth-child(1).animate {
   animation-delay: 0.5s;
 }
+
 .skill-texts .skill-block:nth-child(2).animate {
   animation-delay: 0.8s;
 }
@@ -524,9 +517,8 @@ body.loaded t {
 }
 
 /*--------------------------------
- 　About
+  About
 ---------------------------------*/
-
 .profile-body {
   flex: 1;
 }
@@ -545,10 +537,7 @@ body.loaded t {
   transform: scale(1.1);
 }
 
-/*--------------------------------
-  Aboutページ詳細
----------------------------------*/
-
+/* About 詳細 */
 .profile {
   display: flex;
   flex-wrap: wrap;
@@ -575,7 +564,9 @@ body.loaded t {
   margin-bottom: 20px;
 }
 
-/* my journey  */
+/*--------------------------------
+  My Journey（career）
+---------------------------------*/
 .career.section {
   background-color: #ebeaea !important;
   color: #000;
@@ -584,7 +575,7 @@ body.loaded t {
 
 .career .title {
   margin-bottom: 60px;
-  color: #000000;
+  color: #000;
 }
 
 .career-timeline {
@@ -637,7 +628,9 @@ body.loaded t {
   margin: 0;
 }
 
-/* Strength */
+/*--------------------------------
+  Strength
+---------------------------------*/
 .strength.section {
   background-color: #ebeaea;
   color: #000;
@@ -646,7 +639,7 @@ body.loaded t {
 
 .strength .title {
   margin-bottom: 60px;
-  color: #000000;
+  color: #000;
 }
 
 .strength-item {
@@ -709,27 +702,8 @@ body.loaded t {
   line-height: 1.8;
 }
 
-/* home-link */
-.home-link {
-  text-align: center;
-  margin-top: 40px;
-}
-
-.home-link a {
-  color: #78bdfa;
-  font-size: 16px;
-  text-decoration: none;
-  border-bottom: 1px solid #78bdfa;
-  padding-bottom: 2px;
-  transition: opacity 0.3s;
-}
-
-.home-link a:hover {
-  opacity: 0.7;
-}
-
 /*--------------------------------
- 　Contact
+  Contact
 ---------------------------------*/
 .contact {
   background-color: #000;
@@ -741,7 +715,6 @@ body.loaded t {
 .contact h2 {
   font-size: 22px;
   margin-bottom: 10px;
-
   letter-spacing: 0.05em;
 }
 
@@ -761,8 +734,9 @@ body.loaded t {
   color: #fff;
   text-decoration: underline;
 }
+
 /*--------------------------------
- 　ページトップ
+  ページトップ
 ---------------------------------*/
 .page-top {
   font-weight: bold;
@@ -778,11 +752,11 @@ body.loaded t {
 }
 
 /*--------------------------------
- 　フッター
+  フッター
 ---------------------------------*/
 .footer {
   padding: 30px;
-  background-color: #000000;
+  background-color: #000;
 }
 
 .copyright {
@@ -791,10 +765,9 @@ body.loaded t {
   color: #bbbaba;
 }
 
-/*
-----------------------------------------------------*/
-/*media Queries 767
-----------------------------------------------------*/
+/*--------------------------------
+  メディアクエリ：767px 以下
+---------------------------------*/
 @media screen and (max-width: 767px) {
   body {
     font-size: 14px;
@@ -808,7 +781,6 @@ body.loaded t {
     display: block;
   }
 
-  /* 見出し */
   .title,
   .title1 {
     font-size: 30px;
@@ -821,7 +793,6 @@ body.loaded t {
     margin-bottom: 20px;
   }
 
-  /* レイアウト */
   .wrapper {
     padding-top: 57px;
   }
@@ -836,28 +807,25 @@ body.loaded t {
 
   /* ヘッダー */
   .header {
-    position: fixed;
-    top: 0;
     left: 0;
     right: 0;
-    height: 56px; /* ヘッダーの高さを統一 */
+    height: 56px;
     backdrop-filter: blur(4px);
     z-index: 1000;
   }
 
   .header .container {
     max-width: none;
-    padding: 0 16px; /* 左右の余白だけ */
+    padding: 0 16px;
     height: 56px;
     display: flex;
     align-items: center;
   }
 
   .header-title {
-    font-size: 16px; /* ←ここで小さくする */
+    font-size: 16px;
     line-height: 1;
     font-weight: 400;
-    letter-spacing: 0.02em;
     margin: 0;
     padding: 0;
     white-space: nowrap;
@@ -878,26 +846,30 @@ body.loaded t {
     z-index: 1001;
   }
 
-  /* ドロップダウン（開くメニュー） */
   .sp-nav {
     position: fixed;
     top: 52px;
     right: 10px;
-    display: none;
     background: #111;
     padding: 10px 16px;
     border-radius: 6px;
     z-index: 1099;
   }
-  .sp-nav.show {
-    display: block;
-  }
 
+  /* MV（SP） */
   .mv {
     position: relative;
+    height: auto;
     min-height: auto;
-    padding: 72px 20px 40px;
-    text-align: center;
+    padding: 72px 16px 40px;
+    margin-top: -57px;
+    overflow: visible;
+  }
+
+  .mv-container {
+    max-width: 780px;
+    margin: 0 auto;
+    position: relative;
   }
 
   .mv-img {
@@ -906,39 +878,38 @@ body.loaded t {
     height: auto;
   }
 
-  .mv-img img {
+  .pc-img {
+    display: none;
+  }
+
+  .sp-img {
+    display: block;
     width: 100%;
     height: auto;
     object-fit: cover;
   }
-  .mv-text {
+
+  .main-list {
     position: static;
     transform: none;
-    margin: 8px auto 8px;
-    line-height: 1.4;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-    text-wrap: balance;
-    word-break: keep-all;
-    text-align: center;
-  }
-  .main-list {
-    gap: 8px; /* 項目間の余白を小さく */
+    margin-top: 20px;
+    gap: 8px;
   }
 
   .main-list a {
-    font-size: 20px; /* ← モバイル用に小さめ */
+    font-size: 20px;
     line-height: 1.4;
     letter-spacing: 0.03em;
   }
 
-  /* Works：2列→極小は1列 */
+  /* Works：2列 → さらに小さい幅では1列 */
   .works-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
     justify-items: stretch;
   }
+
   @media screen and (max-width: 360px) {
     .works-list {
       grid-template-columns: 1fr;
@@ -959,35 +930,27 @@ body.loaded t {
     place-items: center;
     overflow: hidden;
   }
+
   .works-img img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    display: block;
   }
 
   .works-name {
-    background: #252525;
-    color: #fff;
     padding: 6px 8px;
-    text-align: center;
-    font-size: 11px; /* 小さく */
-    font-weight: 500; /* 太すぎ回避 */
-    line-height: 1.5;
-    letter-spacing: 0.02em;
+    font-size: 11px;
+    font-weight: 500;
     margin-top: 6px;
   }
+
   .works-info {
-    background: #252525;
-    color: #cfcfcf;
     padding: 4px 8px;
-    text-align: center;
-    font-size: 10px; /* 細め */
+    font-size: 10px;
     font-weight: 400;
-    letter-spacing: 0.01em;
   }
 
-  /* Skills */
+  /* Skill */
   .skill {
     background: url("../img/skills/kurage_1.png") center/cover no-repeat;
     color: #fff;
@@ -1004,6 +967,7 @@ body.loaded t {
     width: 100%;
     gap: 24px;
   }
+
   .skill-block {
     width: 100%;
     margin: 0 auto 18px;
@@ -1021,27 +985,33 @@ body.loaded t {
     display: block;
   }
 
+  /* About */
   .profile {
     display: block;
     text-align: center;
   }
+
   .profile-img {
     width: 150px;
     margin: 0 auto 16px;
   }
+
   .profile-body p {
     margin-bottom: 18px;
   }
 
+  /* works 詳細 */
   .article-body {
     gap: 24px;
     margin: 20px 0 40px;
   }
+
   .article-img,
   .article-text {
     max-width: 100%;
     flex: 1 1 100%;
   }
+
   .article-img img:first-child {
     max-width: 100%;
     margin: 0 auto;
@@ -1076,7 +1046,6 @@ body.loaded t {
     border-radius: 50%;
     display: grid;
     place-items: center;
-    font-family: "EB Garamond", serif;
     font-size: 28px;
     font-weight: 700;
     color: #333;
